@@ -45,3 +45,32 @@ ${text}
   const jsonString = content.slice(jsonStart, jsonEnd);
   return JSON.parse(jsonString);
 }
+
+export async function getEmotionPolarity(emotion) {
+  const prompt = `
+아래 감정 단어가 긍정, 부정, 중립 중 어디에 해당하는지 한 단어로만 대답해줘.
+
+감정: ${emotion}
+답변 예시: 긍정
+`;
+
+  const response = await axios.post(
+    "https://api.openai.com/v1/chat/completions",
+    {
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+    }
+  );
+
+  const content = response.data.choices[0].message.content.trim();
+  if (content.includes("긍정")) return 1;
+  if (content.includes("부정")) return -1;
+  return 0; // 중립
+}
