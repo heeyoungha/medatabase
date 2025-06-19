@@ -20,6 +20,7 @@ function App() {
   const [selectedEmotion, setSelectedEmotion] = useState("");
   const [loading, setLoading] = useState(false);
   const [emotionHistory, setEmotionHistory] = useState([]);
+  const [analyzed, setAnalyzed] = useState(false); // 분석 완료 여부
 
   const chartRef = useRef();
   const chartInstance = useRef();
@@ -62,11 +63,18 @@ function App() {
       const result = await extractEmotionAndActions(input);
       setEmotions(result.감정);
       setActions(result.액션리스트);
+      setAnalyzed(true); // 분석 완료
     } catch (e) {
       alert("분석에 실패했습니다.");
     }
     setLoading(false);
   };
+
+  // 입력이 바뀌면 분석 상태 초기화
+  useEffect(() => {
+    setAnalyzed(false);
+    setSelectedEmotion("");
+  }, [input]);
 
   const handleSaveEmotion = async () => {
     if (!selectedEmotion) return;
@@ -85,6 +93,7 @@ function App() {
     setInput("");
     setEmotions([]);
     setActions({});
+    setAnalyzed(false);
   };
 
   return (
@@ -102,77 +111,78 @@ function App() {
       </button>
 
       {emotions.length > 0 && (
-  <div>
-    <h3>감정 선택</h3>
-    {emotions.map(emotionObj => (
-      <button
-        key={emotionObj.이름}
-        onClick={() => setSelectedEmotion(emotionObj.이름)}
-        style={{
-          margin: 4,
-          background: selectedEmotion === emotionObj.이름 ? "#ffd700" : "#eee",
-        }}
-        title={emotionObj.설명}
-      >
-        {emotionObj.이름}
-      </button>
-    ))}
-    {/* 감정 설명 리스트 */}
-    <ul style={{ marginTop: 12 }}>
-      {emotions.map(emotionObj => (
-        <li key={emotionObj.이름} style={{ marginBottom: 12 }}>
-          <b>{emotionObj.이름}</b>
-          <br />
-          <span style={{ color: "#888" }}>{emotionObj.예시}</span>
-          <br />
-          {emotionObj.설명}
-        </li>
-      ))}
-    </ul>
-  </div>
-  )}
-
-{selectedEmotion && actions[selectedEmotion] && (
-  <div>
-    <h3>추천 액션리스트</h3>
-    {actions[selectedEmotion].카테고리.map(cat => (
-      <div key={cat.이름} style={{ marginBottom: 16 }}>
-        <b>{cat.이름}</b>
-        <table>
-          <thead>
-            <tr>
-              <th>액션</th>
-              <th>설명</th>
-              <th>시간</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cat.액션.map((act, idx) => (
-              <tr key={idx}>
-                <td>{act.행동}</td>
-                <td>{act.설명}</td>
-                <td>{act.시간}</td>
-              </tr>
+        <div className="section">
+          <div className="section-title">감정 선택</div>
+          {emotions.map(emotionObj => (
+            <button
+              key={emotionObj.이름}
+              onClick={() => setSelectedEmotion(emotionObj.이름)}
+              style={{
+                margin: 4,
+                background: selectedEmotion === emotionObj.이름 ? "#ffd700" : "#eee",
+              }}
+              title={emotionObj.설명}
+            >
+              {emotionObj.이름}
+            </button>
+          ))}
+          <ul style={{ marginTop: 12 }}>
+            {emotions.map(emotionObj => (
+              <li key={emotionObj.이름} style={{ marginBottom: 12 }}>
+                <b>{emotionObj.이름}</b>
+                <br />
+                <span style={{ color: "#888" }}>{emotionObj.예시}</span>
+                <br />
+                {emotionObj.설명}
+              </li>
             ))}
-          </tbody>
-        </table>
-      </div>
-    ))}
-    <div>
-      <b>핵심 팁:</b> {actions[selectedEmotion].핵심팁}
-    </div>
-    <div>
-      <b>추천 루틴:</b>
-      <ul>
-        {actions[selectedEmotion].추천루틴.map((r, idx) => (
-          <li key={idx}>
-            {r.시간대} - {r.내용} ({r.툴})
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-)}
+          </ul>
+        </div>
+      )}
+
+      {selectedEmotion && actions[selectedEmotion] && (
+        <div className="section">
+          <div className="section-title">추천 액션리스트</div>
+          {actions[selectedEmotion].카테고리.map(cat => (
+            <div key={cat.이름} style={{ marginBottom: 16 }}>
+              <b>{cat.이름}</b>
+              <table className="styled-table">
+                <thead>
+                  <tr>
+                    <th>액션</th>
+                    <th>설명</th>
+                    <th>시간</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cat.액션.map((act, idx) => (
+                    <tr key={idx}>
+                      <td><span className="emoji">💡</span>{act.행동}</td>
+                      <td>{act.설명}</td>
+                      <td>{act.시간}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
+          <div className="tip-box">
+            <span className="emoji">🌟</span>
+            <b>핵심 팁:</b> {actions[selectedEmotion].핵심팁}
+          </div>
+          <div className="routine-box">
+            <span className="emoji">🗓️</span>
+            <b>추천 루틴:</b>
+            <ul style={{ margin: 0, marginTop: 6 }}>
+              {actions[selectedEmotion].추천루틴.map((r, idx) => (
+                <li key={idx}>
+                  <span className="emoji">⏰</span>{r.시간대} - {r.내용} <span className="emoji">🛠️</span>({r.툴})
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       {emotionHistory.length > 0 && (
         <div>
