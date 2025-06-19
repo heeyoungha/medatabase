@@ -19,6 +19,8 @@ export async function extractEmotionAndActions(text) {
     - 필요하다면, 감정의 하위 카테고리(예: 기획력/창의력 등)로 나눠서 제안해줘.
     - 마지막에, 하루 루틴 예시와 핵심 팁(실행을 방해하지 않는 작은 실천의 중요성 등)도 꼭 추가해줘.
 
+    **중요: 아래 JSON 예시에서 '액션리스트'의 각 key는 반드시 위에서 추출한 감정명(이름)과 정확히 일치해야 해. 예를 들어 감정명이 '만족'이면, 액션리스트의 key도 반드시 '만족'이어야 해.**
+
     아래와 같은 형식으로 JSON으로만 답변해줘:
     
     {
@@ -35,7 +37,7 @@ export async function extractEmotionAndActions(text) {
         }
       ],
       "액션리스트": {
-    "기획력과 창의력에 대한 갈망": {
+        "기획력과 창의력에 대한 갈망": {
       "카테고리": [
         {
           "이름": "기획력",
@@ -61,7 +63,6 @@ export async function extractEmotionAndActions(text) {
   }
 }
 
-    
     사용자 입력:
     ${text}
     `;
