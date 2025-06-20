@@ -28,12 +28,12 @@ export async function extractEmotionAndActions(text) {
       "감정": [
         {
           "이름": "벅참 / 감동",
-          "예시": "“종합예술같은 작품에 심장이 뛴다”",
+          "예시": ""종합예술같은 작품에 심장이 뛴다"",
           "설명": "예술적 또는 창조적 경험에서 오는 감정의 진동. 단순한 흥미가 아니라 깊은 감흥에 가까움."
         },
         {
           "이름": "존경 / 이상에 대한 동경",
-          "예시": "“르코르뷔지에, 노스페이스 창업자, 뉴진스...”",
+          "예시": ""르코르뷔지에, 노스페이스 창업자, 뉴진스..."",
           "설명": "현실을 뛰어넘는 가치를 실현해낸 사람들에 대한 동경과 감탄."
         }
       ],
@@ -105,7 +105,6 @@ export async function extractEmotionAndActions(text) {
 
   // 응답에서 JSON 부분만 추출
   const content = response.data.choices[0].message.content;
-  console.log("OpenAI 응답:", content);
 
   try {
     const jsonStart = content.indexOf("{");
@@ -147,7 +146,7 @@ export async function getEmotionPolarity(emotion) {
         },
         {
           "이름": "존경 / 이상에 대한 동경",
-          "예시": "“르코르뷔지에, 노스페이스 창업자, 뉴진스...”",
+          "예시": "“르코르뷔지에, 노스페이스 창업자, 뉴진스..."",
           "설명": "현실을 뛰어넘는 가치를 실현해낸 사람들에 대한 동경과 감탄."
         }
       ],
