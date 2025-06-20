@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { extractEmotionAndActions, getEmotionPolarity } from "./openai";
 import Chart from "chart.js/auto";
+import "./App.css";
 
 // 긍정 감정 예시
 const positiveEmotions = ["기쁨", "감사", "행복", "설렘", "희망", "평온", "사랑", "만족"];
@@ -97,16 +98,16 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: 500, margin: "auto", padding: 20 }}>
+    <div style={{ width: '90vw', maxWidth: 500, margin: "auto", padding: 20 }}>
       <h2>오늘의 감정 기록</h2>
       <textarea
         value={input}
         onChange={e => setInput(e.target.value)}
         rows={5}
-        style={{ width: "100%" }}
+        className="journal-area"
         placeholder="오늘 있었던 일을 적어보세요"
       />
-      <button onClick={handleAnalyze} disabled={loading || !input}>
+      <button className="analyze-btn" onClick={handleAnalyze} disabled={loading || !input || analyzed}>
         {loading ? "분석 중..." : "감정 분석"}
       </button>
 
@@ -117,10 +118,9 @@ function App() {
             <button
               key={emotionObj.이름}
               onClick={() => setSelectedEmotion(emotionObj.이름)}
-              style={{
-                margin: 4,
-                background: selectedEmotion === emotionObj.이름 ? "#ffd700" : "#eee",
-              }}
+              className={
+                "emotion-btn" + (selectedEmotion === emotionObj.이름 ? " selected" : "")
+              }
               title={emotionObj.설명}
             >
               {emotionObj.이름}

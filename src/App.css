@@ -129,3 +129,45 @@
   font-size: 1.2em;
   margin-right: 6px;
 }
+
+.journal-area {
+  width: 100%;
+  min-height: 120px;
+  font-size: 1.08rem;
+  border: 2px solid #e0e7ef;
+  border-radius: 12px;
+  padding: 16px 14px;
+  background: #f8fafc;
+  color: #222;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+  resize: vertical;
+}
+.journal-area:focus {
+  border: 2px solid #36a2eb;
+  box-shadow: 0 0 0 2px #b3e0ff;
+  background: #fff;
+}
+
+.analyze-btn {
+  width: 100%;
+  padding: 14px 0;
+  font-size: 1.15rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #36a2eb 0%, #ffd700 100%);
+  color: #2d3a4a;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(54,162,235,0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.analyze-btn:disabled {
+  background: #e0e7ef;
+  color: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
