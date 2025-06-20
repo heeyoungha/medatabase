@@ -177,3 +177,7 @@
 .section ul, .section li, .section li b, .section li span {
   color: #213547 !important;
 }
+
+.styled-table, .styled-table th, .styled-table td, .tip-box, .routine-box {
+  color: #213547 !important;
+}
