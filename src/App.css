@@ -173,3 +173,7 @@
   cursor: not-allowed;
   box-shadow: none;
 }
+
+.section ul, .section li, .section li b, .section li span {
+  color: #213547 !important;
+}
