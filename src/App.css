@@ -181,3 +181,7 @@
 .styled-table, .styled-table th, .styled-table td, .tip-box, .routine-box {
   color: #213547 !important;
 }
+
+.section li span {
+  color: #8a99a8 !important;
+}

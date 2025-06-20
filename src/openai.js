@@ -105,7 +105,7 @@ export async function extractEmotionAndActions(text) {
 
   // 응답에서 JSON 부분만 추출
   const content = response.data.choices[0].message.content;
-  console.log("OpenAI 응답:", content);
+  
   try {
     const jsonStart = content.indexOf("{");
     const jsonEnd = content.lastIndexOf("}") + 1;

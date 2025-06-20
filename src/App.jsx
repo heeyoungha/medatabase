@@ -25,6 +25,9 @@ function App() {
 
   const chartRef = useRef();
   const chartInstance = useRef();
+  const emotionSectionRef = useRef();
+  const actionSectionRef = useRef();
+  const actionTitleRef = useRef();
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -65,10 +68,20 @@ function App() {
       setEmotions(result.감정);
       setActions(result.액션리스트);
       setAnalyzed(true); // 분석 완료
+      setTimeout(() => {
+        if (emotionSectionRef.current) {
+          emotionSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          window.scrollBy({ top: -window.innerHeight * 0.2, left: 0, behavior: 'smooth' });
+        }
+      }, 300);
     } catch (e) {
       alert("분석에 실패했습니다.");
     }
     setLoading(false);
+  };
+
+  const handleEmotionClick = (emotionName) => {
+    setSelectedEmotion(emotionName);
   };
 
   // 입력이 바뀌면 분석 상태 초기화
@@ -76,6 +89,16 @@ function App() {
     setAnalyzed(false);
     setSelectedEmotion("");
   }, [input]);
+
+  // 감정 버튼을 눌러 액션리스트가 화면에 표시될 때 스크롤
+  useEffect(() => {
+     if (selectedEmotion && actions[selectedEmotion] && actionTitleRef.current) {
+       setTimeout(() => {
+        document.querySelector('#action-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+         
+       }, 300);
+     }
+   }, [selectedEmotion, actions]);
 
   const handleSaveEmotion = async () => {
     if (!selectedEmotion) return;
@@ -113,7 +136,7 @@ function App() {
 
       {emotions.length > 0 && (
         <div className="section">
-          <div className="section-title">감정 선택</div>
+          <div className="section-title" ref={emotionSectionRef}>감정 선택</div>
           {emotions.map(emotionObj => (
             <button
               key={emotionObj.이름}
@@ -142,7 +165,7 @@ function App() {
 
       {selectedEmotion && actions[selectedEmotion] && (
         <div className="section">
-          <div className="section-title">추천 액션리스트</div>
+          <div className="section-title" id="action-title" ref={actionTitleRef}>추천 액션리스트</div>
           {actions[selectedEmotion].카테고리.map(cat => (
             <div key={cat.이름} style={{ marginBottom: 16 }}>
               <b>{cat.이름}</b>
